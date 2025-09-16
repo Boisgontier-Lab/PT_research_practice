@@ -68,8 +68,7 @@ Less-than (<) buckets
 
 Non-significant buckets
 * insig\_exact, insig\_less, insig\_over (for > cases).
-* num\_ps\_any (any parsable p), n\_exact05 (exactly p = .05).
-
+* num\_ps\_any (any parsable p), n\_exact05 (exactly p = .05).  
 Aggregates (sign-agnostic)
 * sig, n05, n005\_h, n005\_l, n01 (n005\_h ∪ n005\_l), n001, n01\_001 (n01 ∪ n001), num\_ps, insig, cnt.
 Article pattern helpers (carried at the p-row for later aggregation)
@@ -112,6 +111,7 @@ Fragility proportions (paper-level)
 
  
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
