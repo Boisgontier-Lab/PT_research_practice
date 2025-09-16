@@ -33,7 +33,7 @@ Software: R (≥4.x) and Python (≥3.x) with the packages used in PT research p
 
 **Option A — use existing spreadsheets** 
 
-The spreadsheets have all been uploaded and placed in the "dataframes" folder. Hence, anyone who wants to use the dataset could just skip all of the python scripts and run the code in R\_code/p\_fragile\_calculation.r from #### Fragile p-value calculation #### -> # Upload the final file. You can find the "Final spreadsheet columns" Section further below for details on which spreadsheet you should pick for your work, and for instructions on what the spreadsheet columns represent.
+The spreadsheets have all been uploaded and placed in the "dataframes" folder. Hence, anyone who wants to use the dataset could just skip all of the python scripts and run the code in R\_code/p\_fragile\_calculation.r from #### Fragile p-value calculation #### -> # Upload the final file. You can find the "Final spreadsheet columns" Section further below for instructions on what the spreadsheet columns represent.
 
 **Option B — rebuild**
 
@@ -99,6 +99,7 @@ Fragility proportions (paper-level)
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
