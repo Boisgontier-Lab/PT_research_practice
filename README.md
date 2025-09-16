@@ -46,63 +46,64 @@ If you choose option B, be sure to fill in the fields marked as requiring your i
 Below are only the columns used in the final spreadsheets shipped in dataframes/.
 
 **'val\_orig\_quant\_by\_pval.csv' (1 row = 1 p-value)**  
-&nbsp;&nbsp;* sign: reported sign of the p-value: "=", "<", ">".  
-&nbsp;&nbsp;* p\_val: numeric value of the p-value (for <, this is the threshold).  
-&nbsp;&nbsp;* sentence: text snippet surrounding the reported p.  
-&nbsp;&nbsp;* doi\_str: standardized DOI (dash-separated).  
-&nbsp;&nbsp;* stat\_type: nearby test type (t, F, χ², z, r).  
-&nbsp;&nbsp;* stat\_value: reported statistic value.  
-&nbsp;&nbsp;* df, df1, df2: degrees of freedom.  
-&nbsp;&nbsp;* n: sample size when detected.  
-&nbsp;&nbsp;* p\_implied: p implied from the test statistic (when computable).  
+&nbsp;&nbsp;• sign: reported sign of the p-value: "=", "<", ">".  
+&nbsp;&nbsp;• p\_val: numeric value of the p-value (for <, this is the threshold).  
+&nbsp;&nbsp;• sentence: text snippet surrounding the reported p.  
+&nbsp;&nbsp;• doi\_str: standardized DOI (dash-separated).  
+&nbsp;&nbsp;• stat\_type: nearby test type (t, F, χ², z, r).  
+&nbsp;&nbsp;• stat\_value: reported statistic value.  
+&nbsp;&nbsp;• df, df1, df2: degrees of freedom.  
+&nbsp;&nbsp;• n: sample size when detected.  
+&nbsp;&nbsp;• p\_implied: p implied from the test statistic (when computable).  
 
 **'val\_orig\_quant\_processed\_by\_p.csv' (1 row = 1 p-value, post-processed)**  
 Each p-value is labeled by report type (= or <), placed into threshold buckets (.05/.01/.005/.001), with overall counts and fragility.  
 Exact (=) buckets  
-&nbsp;&nbsp;* sig\_exact, n05\_exact, n005\_h\_exact, n005\_l\_exact, n001\_exact, num\_ps\_exact.  
+&nbsp;&nbsp;• sig\_exact, n05\_exact, n005\_h\_exact, n005\_l\_exact, n001\_exact, num\_ps\_exact.  
 Less-than (<) buckets  
-&nbsp;&nbsp;* sig\_less, n05\_less, n005\_h\_less, n005\_l\_less, n001\_less, num\_ps\_less.  
+&nbsp;&nbsp;• sig\_less, n05\_less, n005\_h\_less, n005\_l\_less, n001\_less, num\_ps\_less.  
 Non-significant buckets  
-&nbsp;&nbsp;* insig\_exact, insig\_less, insig\_over (for > cases).  
-&nbsp;&nbsp;* num\_ps\_any (any parsable p), n\_exact05 (exactly p = .05).  
+&nbsp;&nbsp;• insig\_exact, insig\_less, insig\_over (for > cases).  
+&nbsp;&nbsp;• num\_ps\_any (any parsable p), n\_exact05 (exactly p = .05).  
 Aggregates (sign-agnostic)  
-&nbsp;&nbsp;* sig, n05, n005\_h, n005\_l, n01 (n005\_h ∪ n005\_l), n001, n01\_001 (n01 ∪ n001), num\_ps, insig, cnt.  
+&nbsp;&nbsp;• sig, n05, n005\_h, n005\_l, n01 (n005\_h ∪ n005\_l), n001, n01\_001 (n01 ∪ n001), num\_ps, insig, cnt.  
 Article pattern helpers (carried at the p-row for later aggregation)  
-&nbsp;&nbsp;* lowest\_p\_val: the smallest p\_val seen for that article.  
-&nbsp;&nbsp;* cond: article’s p-reporting pattern category (e.g., all\_less0.05, all\_equal, equal\_less0.01, eclectic).  
-&nbsp;&nbsp;* p\_cutoff: threshold implied by cond (e.g., .05, .01).  
+&nbsp;&nbsp;• lowest\_p\_val: the smallest p\_val seen for that article.  
+&nbsp;&nbsp;• cond: article’s p-reporting pattern category (e.g., all\_less0.05, all\_equal, equal\_less0.01, eclectic).  
+&nbsp;&nbsp;• p\_cutoff: threshold implied by cond (e.g., .05, .01).  
 Fragility labels  
-&nbsp;&nbsp;* p\_is\_fragile\_reported: FRAGILE by the reported p (true if 0.01 ≤ p < 0.05; inequalities like p < .05 remain ambiguous).  
-&nbsp;&nbsp;* p\_is\_fragile\_implied: label from implied p: INSIG (≥ .05), FRAGILE (.01–.05), STRONG (< .01).  
-&nbsp;&nbsp;* ambig\_less05: marks ambiguous p < .05 cases.  
+&nbsp;&nbsp;• p\_is\_fragile\_reported: FRAGILE by the reported p (true if 0.01 ≤ p < 0.05; inequalities like p < .05 remain ambiguous).  
+&nbsp;&nbsp;• p\_is\_fragile\_implied: label from implied p: INSIG (≥ .05), FRAGILE (.01–.05), STRONG (< .01).  
+&nbsp;&nbsp;• ambig\_less05: marks ambiguous p < .05 cases.  
 
 **'val\_orig\_quant\_process.csv' (one row = one paper)**  
 &nbsp;&nbsp;For each article, it sums the per-p flags and report fragility proportions.  
 Summed flags for all categories:  
-&nbsp;&nbsp;* sig\_exact, n05\_exact, n005\_h\_exact, n005\_l\_exact, n001\_exact, num\_ps\_exact  
-&nbsp;&nbsp;* sig\_less, n05\_less, n005\_h\_less, n005\_l\_less, n001\_less, num\_ps\_less  
-&nbsp;&nbsp;* insig\_exact, insig\_less, insig\_over, num\_ps\_any, n\_exact05  
-&nbsp;&nbsp;* sig, n05, n005\_h, n005\_l, n01, n001, n01\_001, num\_ps, insig, cnt  
+&nbsp;&nbsp;• sig\_exact, n05\_exact, n005\_h\_exact, n005\_l\_exact, n001\_exact, num\_ps\_exact  
+&nbsp;&nbsp;• sig\_less, n05\_less, n005\_h\_less, n005\_l\_less, n001\_less, num\_ps\_less  
+&nbsp;&nbsp;• insig\_exact, insig\_less, insig\_over, num\_ps\_any, n\_exact05  
+&nbsp;&nbsp;• sig, n05, n005\_h, n005\_l, n01, n001, n01\_001, num\_ps, insig, cnt  
 Helpers  
-&nbsp;&nbsp;* lowest\_p\_val: smallest p-val seen for the article.  
-&nbsp;&nbsp;* cond: article’s p-reporting pattern category (see above).  
-&nbsp;&nbsp;* p\_cutoff: threshold implied by cond.  
+&nbsp;&nbsp;• lowest\_p\_val: smallest p-val seen for the article.  
+&nbsp;&nbsp;• cond: article’s p-reporting pattern category (see above).  
+&nbsp;&nbsp;• p\_cutoff: threshold implied by cond.  
 Fragility proportions (paper-level)  
-&nbsp;&nbsp;* p\_fragile: proportion of significant p-values in \[0.01, 0.05].  
-&nbsp;&nbsp;* p\_fragile\_w\_exact05: as above, counting p = .05.  
-&nbsp;&nbsp;* p\_fragile\_orig: pre-correction copy.  
-&nbsp;&nbsp;* p\_fragile\_imp\_implied: computed from implied p’s when available.  
-&nbsp;&nbsp;* p\_fragile\_prop\_raw: raw retained p-value.  
-&nbsp;&nbsp;* p\_fragile\_prop\_adj: adjusted p-value use for the analysis. For papers that only reported p < .05 (cond = all\_less0.05):
+&nbsp;&nbsp;• p\_fragile: proportion of significant p-values in \[0.01, 0.05].  
+&nbsp;&nbsp;• p\_fragile\_w\_exact05: as above, counting p = .05.  
+&nbsp;&nbsp;• p\_fragile\_orig: pre-correction copy.  
+&nbsp;&nbsp;• p\_fragile\_imp\_implied: computed from implied p’s when available.  
+&nbsp;&nbsp;• p\_fragile\_prop\_raw: raw retained p-value.  
+&nbsp;&nbsp;• p\_fragile\_prop\_adj: adjusted p-value use for the analysis. For papers that only reported p < .05 (cond = all\_less0.05):
 
 
-   &nbsp;       - replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).
+   &nbsp;         - replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).
    &nbsp;	      - indicators: fragile\_implied\_applied, fragile\_51\_applied.
 
 
 
  
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
