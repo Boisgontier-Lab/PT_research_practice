@@ -1,25 +1,14 @@
-#### **What is the current state of physical therapy research practices nowadays?**
+# **What is the current state of physical therapy research practices nowadays?**
 
 This repository contains the code and the data for the manuscript: Jabouille et al., (2025). "Transparency and Replicability in Physical Therapy Research: Time to Wake Up".
 
 A preprint of the paper has also been uploaded here as a PDF.
 
-
 We warmly thank Paul C. Bogdan for his impressive work and for generously sharing his data and code, without which this analysis could not have been carried out. Our p-fragile analysis builds on his work.
 
+## **Repository layout**
 
-
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-
-
-##### **Repository layout**
-
-###### \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-
-
-### You will find two main folders:
+#### You will find two main folders:
 
 **(1) "PT Research Practices":** containing the dataset with all the data manually extracted from the 1173 articles and the R code to analyze it.
 
@@ -39,52 +28,23 @@ We warmly thank Paul C. Bogdan for his impressive work and for generously sharin
  	2. make\_processed\_p\_df.py that takes the val\_orig\_quant\_by\_pval.csv prepared by make\_p\_z\_df.py and processes it, categorizing each p-value 	(e.g., .01 <= p < .05), calculates fragile p-values, does the correction for papers that report only p<.05, etc. It produces 	"val\_orig\_quant\_process.csv" where one row = one paper and "val\_orig\_quant\_processed\_by\_p.csv" where one row = one p-value.
 
 
-
- \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-
-
-#####    **How to run**
-
-###### \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-
+##    **How to run**
 
 I ran this analysis on Windows11.
-
-
-
 Software: R (≥4.x) and Python (≥3.x) with the packages used in PT research practice analysis.r and R\_code/p\_fragile\_calculation.r.
-
-
 
 **Option A — use existing spreadsheets** 
 
 The spreadsheets have all been uploaded and placed in the "dataframes" folder. Hence, anyone who wants to use the dataset could just skip all of the python scripts and run the code in R\_code/p\_fragile\_calculation.r from #### Fragile p-value calculation #### -> # Upload the final file. You can find the "Final spreadsheet columns" Section further below for details on which spreadsheet you should pick for your work, and for instructions on what the spreadsheet columns represent.
-
-
 
 **Option B — rebuild**
 
 Alternatively, based on the whole code in R\_code/p\_fragile\_calculation.r, anyone (with a suitable university library subscription) can reproduce the spreadsheets themselves. This would, notably, involve you running the scripts to scrape the fulltexts. I have uploaded as much as I can, but I cannot upload the fulltexts themselves for copyright reasons. If you run the scripts in the prepare\_fulltexts folder with the R code, it will download you the articles in .HTML and .MHTML in the doi\_tree\_html and doi\_tree\_mhtml folders, as well as the .TXT with the Results sections in doi\_tree\_txt and doi\_tree\_mhtml\_txt respectively. Then all you have to do is run the scripts in the make\_dataset folder to obtain the “dataframes” folder and the spreadsheets it contains.
 
 
-
-\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-
-
-##### **Final spreadsheet columns**
-
-###### \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
-
-
-
-
+## **Final spreadsheet columns**
 
 Below are only the columns used in the final spreadsheets shipped in dataframes/.
-
-
 
 **'val\_orig\_quant\_by\_pval.csv' (1 row = 1 p-value)**
 
@@ -172,6 +132,7 @@ Fragility proportions (paper-level)
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
