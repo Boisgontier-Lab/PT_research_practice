@@ -1,4 +1,4 @@
-# **What is the current state of physical therapy research practices nowadays?**
+# **What is the current state of physical therapy research practices?**
 
 This repository contains the code and the data for the manuscript: Jabouille et al., (2025). "Transparency and Replicability in Physical Therapy Research: Time to Wake Up".
 
@@ -106,6 +106,7 @@ Fragility proportions (paper-level)
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
