@@ -8,7 +8,7 @@ We warmly thank Paul C. Bogdan for his impressive work and for generously sharin
 
 ## **Repository layout**
 
-#### You will find two main folders:
+#### In the Analysis folder, you will find two main subfolders:
 
 **(1) "PT Research Practices":** containing the dataset with all the data manually extracted from the 1173 articles and the R code to analyze it.
 
@@ -94,26 +94,11 @@ Fragility proportions (paper-level)
 * p\_fragile\_imp\_implied: computed from implied p’s when available.
 * p\_fragile\_prop\_raw: raw retained p-value.
 * p\_fragile\_prop\_adj: adjusted p-value use for the analysis. For papers that only reported p < .05 (cond = all\_less0.05):
-
-&nbsp;	- replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material for details on this point).
-
+&nbsp;	- replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).
 &nbsp;	- indicators: fragile\_implied\_applied, fragile\_51\_applied.
 
 
-
-
-
-
-
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
-
-
-
-
-
-
-
-
 
 
 
