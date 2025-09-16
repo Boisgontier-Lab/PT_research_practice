@@ -39,6 +39,7 @@ The spreadsheets have all been uploaded and placed in the "dataframes" folder. H
 
 Alternatively, based on the whole code in R\_code/p\_fragile\_calculation.r, anyone (with a suitable university library subscription) can reproduce the spreadsheets themselves. This would, notably, involve you running the scripts to scrape the fulltexts. I have uploaded as much as I can, but I cannot upload the fulltexts themselves for copyright reasons. If you run the scripts in the prepare\_fulltexts folder with the R code, it will download you the articles in .HTML and .MHTML in the doi\_tree\_html and doi\_tree\_mhtml folders, as well as the .TXT with the Results sections in doi\_tree\_txt and doi\_tree\_mhtml\_txt respectively. Then all you have to do is run the scripts in the make\_dataset folder to obtain the “dataframes” folder and the spreadsheets it contains.
 
+If you choose option B, be sure to fill in the fields marked as requiring your information in the Python scripts.
 
 ## **Final spreadsheet columns**
 
@@ -99,6 +100,7 @@ Fragility proportions (paper-level)
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
