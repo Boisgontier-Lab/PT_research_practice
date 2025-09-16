@@ -102,14 +102,12 @@ Fragility proportions (paper-level)
 * p\_fragile\_prop\_raw: raw retained p-value.
 * p\_fragile\_prop\_adj: adjusted p-value use for the analysis. For papers that only reported p < .05 (cond = all\_less0.05):
 
-
-&nbsp;- replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).
-
-
-&nbsp;	- indicators: fragile\_implied\_applied, fragile\_51\_applied.
+&nbsp;     - replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).
+&nbsp;	   - indicators: fragile\_implied\_applied, fragile\_51\_applied.
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
