@@ -77,7 +77,7 @@ Fragility labels
 &nbsp;&nbsp;• ambig\_less05: marks ambiguous p < .05 cases.  
 
 **'val\_orig\_quant\_process.csv' (one row = one paper)**  
-&nbsp;&nbsp;For each article, it sums the per-p flags and report fragility proportions.  
+For each article, it sums the per-p flags and report fragility proportions.  
 Summed flags for all categories:  
 &nbsp;&nbsp;• sig\_exact, n05\_exact, n005\_h\_exact, n005\_l\_exact, n001\_exact, num\_ps\_exact  
 &nbsp;&nbsp;• sig\_less, n05\_less, n005\_h\_less, n005\_l\_less, n001\_less, num\_ps\_less  
@@ -94,13 +94,14 @@ Fragility proportions (paper-level)
 &nbsp;&nbsp;• p\_fragile\_imp\_implied: computed from implied p’s when available.  
 &nbsp;&nbsp;• p\_fragile\_prop\_raw: raw retained p-value.  
 &nbsp;&nbsp;• p\_fragile\_prop\_adj: adjusted p-value use for the analysis. For papers that only reported p < .05 (cond = all\_less0.05):  
-   &nbsp;&nbsp;            - replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).  
-   &nbsp;&nbsp;	         - indicators: fragile\_implied\_applied, fragile\_51\_applied.
+      &nbsp;&nbsp;            - replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).  
+      &nbsp;&nbsp;	         - indicators: fragile\_implied\_applied, fragile\_51\_applied.
 
 
 
  
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
