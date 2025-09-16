@@ -4,7 +4,7 @@
 
 
 
-This repository contains the code and the data for the manuscript: Jabouille et al., (2025). "Research Practices in Physical Therapy: Time to Wake Up".
+This repository contains the code and the data for the manuscript: Jabouille et al., (2025). "Transparency and Replicability in Physical Therapy Research: Time to Wake Up".
 
 It has also been added to the associated OSF repository. A preprint of the paper has been uploaded here as a PDF.
 
@@ -177,6 +177,7 @@ Fragility proportions (paper-level)
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
