@@ -15,17 +15,15 @@ We warmly thank Paul C. Bogdan for his impressive work and for generously sharin
 * **PT-research practice validated.xlsx:** entails the individual data extraction of all the coders, and the validated data after concertation. The final dataset used for analysis was the sheet "Data2022+2023+2024".
 * **PT research practice analysis.r:** entails all the analyses made on the dataset except the p-fragile calculation.
 
-
-
 **(2)** **"PTChange-main":** inspired from the study of Bogdan (2025), containing the R code, python scripts and datasets used for the p-fragile calculation.
 
 * **R\_code:** p\_fragile\_calculation.r contains the code to calculate the p-fragile proportion from scratch.
 * **prepare\_fulltexts**: contains the python scripts used in the R code to download the fulltext articles in .HTML and .MHTML in 3 different ways (from doi, pmcid, and ScienceDirect), and the python scripts to retrieve the Results sections of each article and convert them into usable plaintexts (.TXT).
 * **make\_dataset:** contains the following:
 
- 	1. make\_p\_z\_df.py that does all of the p-value, statistics, tests extraction and calculate the p\_implied by the tests. It contains much delicate 	regex code. It produces val\_orig\_quant\_by\_pval.csv where one row = one p-value.
+     	1. make\_p\_z\_df.py that does all of the p-value, statistics, tests extraction and calculate the p\_implied by the tests. It contains much delicate 	regex code. It           produces val\_orig\_quant\_by\_pval.csv where one row = one p-value.
 
- 	2. make\_processed\_p\_df.py that takes the val\_orig\_quant\_by\_pval.csv prepared by make\_p\_z\_df.py and processes it, categorizing each p-value 	(e.g., .01 <= p < .05), calculates fragile p-values, does the correction for papers that report only p<.05, etc. It produces 	"val\_orig\_quant\_process.csv" where one row = one paper and "val\_orig\_quant\_processed\_by\_p.csv" where one row = one p-value.
+     	2. make\_processed\_p\_df.py that takes the val\_orig\_quant\_by\_pval.csv prepared by make\_p\_z\_df.py and processes it, categorizing each p-value 	(e.g., .01 <= p         < .05), calculates fragile p-values, does the correction for papers that report only p<.05, etc. It produces 	"val\_orig\_quant\_process.csv" where one row = one           paper and "val\_orig\_quant\_processed\_by\_p.csv" where one row = one p-value.
 
 
 ##    **How to run**
@@ -47,7 +45,6 @@ Alternatively, based on the whole code in R\_code/p\_fragile\_calculation.r, any
 Below are only the columns used in the final spreadsheets shipped in dataframes/.
 
 **'val\_orig\_quant\_by\_pval.csv' (1 row = 1 p-value)**
-
 * sign: reported sign of the p-value: "=", "<", ">".
 * p\_val: numeric value of the p-value (for <, this is the threshold).
 * sentence: text snippet surrounding the reported p.
@@ -58,62 +55,39 @@ Below are only the columns used in the final spreadsheets shipped in dataframes/
 * n: sample size when detected.
 * p\_implied: p implied from the test statistic (when computable).
 
-
-
 **'val\_orig\_quant\_processed\_by\_p.csv' (1 row = 1 p-value, post-processed)**
 
 Each p-value is labeled by report type (= or <), placed into threshold buckets (.05/.01/.005/.001), with overall counts and fragility.
-
 Exact (=) buckets
-
 * sig\_exact, n05\_exact, n005\_h\_exact, n005\_l\_exact, n001\_exact, num\_ps\_exact.
-
 Less-than (<) buckets
-
 * sig\_less, n05\_less, n005\_h\_less, n005\_l\_less, n001\_less, num\_ps\_less.
-
 Non-significant buckets
-
 * insig\_exact, insig\_less, insig\_over (for > cases).
 * num\_ps\_any (any parsable p), n\_exact05 (exactly p = .05).
-
 Aggregates (sign-agnostic)
-
 * sig, n05, n005\_h, n005\_l, n01 (n005\_h ∪ n005\_l), n001, n01\_001 (n01 ∪ n001), num\_ps, insig, cnt.
-
 Article pattern helpers (carried at the p-row for later aggregation)
-
 * lowest\_p\_val: the smallest p\_val seen for that article.
 * cond: article’s p-reporting pattern category (e.g., all\_less0.05, all\_equal, equal\_less0.01, eclectic).
 * p\_cutoff: threshold implied by cond (e.g., .05, .01).
-
 Fragility labels
-
 * p\_is\_fragile\_reported: FRAGILE by the reported p (true if 0.01 ≤ p < 0.05; inequalities like p < .05 remain ambiguous).
 * p\_is\_fragile\_implied: label from implied p: INSIG (≥ .05), FRAGILE (.01–.05), STRONG (< .01).
 * ambig\_less05: marks ambiguous p < .05 cases.
 
-
-
 **'val\_orig\_quant\_process.csv' (one row = one paper)**
-
 For each article, it sums the per-p flags and report fragility proportions.
-
 Summed flags for all categories:
-
 * sig\_exact, n05\_exact, n005\_h\_exact, n005\_l\_exact, n001\_exact, num\_ps\_exact
 * sig\_less, n05\_less, n005\_h\_less, n005\_l\_less, n001\_less, num\_ps\_less
 * insig\_exact, insig\_less, insig\_over, num\_ps\_any, n\_exact05
 * sig, n05, n005\_h, n005\_l, n01, n001, n01\_001, num\_ps, insig, cnt
-
 Helpers
-
 * lowest\_p\_val: smallest p-val seen for the article.
 * cond: article’s p-reporting pattern category (see above).
 * p\_cutoff: threshold implied by cond.
-
 Fragility proportions (paper-level)
-
 * p\_fragile: proportion of significant p-values in \[0.01, 0.05].
 * p\_fragile\_w\_exact05: as above, counting p = .05.
 * p\_fragile\_orig: pre-correction copy.
@@ -132,6 +106,7 @@ Fragility proportions (paper-level)
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
