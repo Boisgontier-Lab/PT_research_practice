@@ -1,13 +1,8 @@
-#### **What is the Proportion of P-fragile in the Physiotherapy Literature nowadays?**
+#### **What is the current state of physical therapy research practices nowadays?**
 
+This repository contains the code and the data for the manuscript: Jabouille et al., (2025). "Transparency and Replicability in Physical Therapy Research: Time to Wake Up".
 
-
-
-
-This repository contains the code and the data for the manuscript: Jabouille et al., (2025). "Research Practices in Physical Therapy: Time to Wake Up".
-
-It has also been added to the associated OSF repository. A preprint of the paper has been uploaded here as a PDF.
-
+A preprint of the paper has also been uploaded here as a PDF.
 
 
 We warmly thank Paul C. Bogdan for his impressive work and for generously sharing his data and code, without which this analysis could not have been carried out. Our p-fragile analysis builds on his work.
@@ -24,7 +19,7 @@ We warmly thank Paul C. Bogdan for his impressive work and for generously sharin
 
 
 
-###### You will find two main folders:
+### You will find two main folders:
 
 **(1) "PT Research Practices":** containing the dataset with all the data manually extracted from the 1173 articles and the R code to analyze it.
 
@@ -177,6 +172,7 @@ Fragility proportions (paper-level)
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
