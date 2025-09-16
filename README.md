@@ -56,6 +56,8 @@ Below are only the columns used in the final spreadsheets shipped in dataframes/
 * n: sample size when detected.
 * p\_implied: p implied from the test statistic (when computable).
 
+
+
 **'val\_orig\_quant\_processed\_by\_p.csv' (1 row = 1 p-value, post-processed)**
 Each p-value is labeled by report type (= or <), placed into threshold buckets (.05/.01/.005/.001), with overall counts and fragility.
 
@@ -102,11 +104,13 @@ Fragility proportions (paper-level)
 * p\_fragile\_prop\_raw: raw retained p-value.
 * p\_fragile\_prop\_adj: adjusted p-value use for the analysis. For papers that only reported p < .05 (cond = all\_less0.05):
 
-&nbsp;     - replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).
-&nbsp;	   - indicators: fragile\_implied\_applied, fragile\_51\_applied.
+     &nbsp;     - replaced by the implied p-value if available, else by a fixed fallback (~0.51) - (See supplementary material 3 for details on this point).
+
+     &nbsp;	   - indicators: fragile\_implied\_applied, fragile\_51\_applied.
 
 
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
