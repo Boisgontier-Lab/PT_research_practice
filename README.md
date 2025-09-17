@@ -2,7 +2,7 @@
 
 This repository contains the code and the data for the manuscript: Jabouille et al., (2025). "Transparency and Replicability in Physical Therapy Research: Time to Wake Up".
 
-A preprint of the paper has also been uploaded here as a PDF.
+A preprint of the paper and the "Coding Instructions.ppt" document containing the standardized coding instructions used by the coders have also been uploaded here as a PDF.
 
 We warmly thank Paul C. Bogdan for his impressive work and for generously sharing his data and code, without which this analysis could not have been carried out. Our p-fragile analysis builds on his work.
 
@@ -104,6 +104,7 @@ Fragility proportions (paper-level)
   
  
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
