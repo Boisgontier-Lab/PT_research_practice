@@ -105,34 +105,50 @@ df_rev <- df %>%
 # Calculation of the distribution of review type 
 props_df <- df_rev %>%
   summarise(
-    sys_no_meta = mean(`systematic review` == "Yes", na.rm = TRUE),
-    sys_with_meta = mean(`systematic review` == "Yes" & `meta-analysis` == "Yes", na.rm = TRUE),
-    narrative = mean(`systematic review` == "No" & `meta-analysis` == "No", na.rm = TRUE)
+    narrative     = mean(`systematic review` == "No"  & `meta-analysis` == "No",  na.rm = TRUE),
+    sys_only      = mean(`systematic review` == "Yes" & `meta-analysis` == "No",  na.rm = TRUE),
+    meta_only     = mean(`systematic review` == "No"  & `meta-analysis` == "Yes", na.rm = TRUE),
+    sys_with_meta = mean(`systematic review` == "Yes" & `meta-analysis` == "Yes", na.rm = TRUE)
   ) %>%
   pivot_longer(
     cols = everything(),
     names_to = "review_type",
     values_to = "proportion"
   ) %>%
-  mutate(review_type = recode(review_type,
-                              sys_no_meta   = "Systematic review",
-                              sys_with_meta = "Systematic review\n+ meta-analysis",
-                              narrative     = "Narrative review"
-  ))
+  mutate(
+    review_type = recode(
+      review_type,
+      narrative     = "Narrative review",
+      sys_only      = "Systematic review",
+      meta_only     = "Meta-analysis",
+      sys_with_meta = "Systematic review\n+ meta-analysis"
+    ),
+    review_type = factor(
+      review_type,
+      levels = c(
+        "Narrative review",
+        "Systematic review",
+        "Meta-analysis",
+        "Systematic review\n+ meta-analysis"
+      )
+    )
+  )
 
-# Display the proportions
+# Display proportion table
 print(props_df)
 
 # Plot data
-ggplot(props_df, aes(
-  x    = fct_reorder(review_type, proportion, .desc = TRUE), 
-  y    = proportion, 
+plot_review_distr <- ggplot(props_df, aes(
+  x    = review_type,
+  y    = proportion,
   fill = review_type
 )) +
   geom_col(width = bar_height) +
+  geom_text(aes(label = percent(proportion, accuracy = 1)),
+            vjust = -0.5, size = 4, fontface = "bold") +
   scale_y_continuous(
     labels = percent_format(accuracy = 1),
-    expand = expansion(mult = c(0, .05))
+    expand = expansion(mult = c(0, .1))
   ) +
   scale_fill_viridis_d(guide = FALSE) +
   labs(
@@ -142,12 +158,19 @@ ggplot(props_df, aes(
   ) +
   theme_minimal(base_size = 14) +
   theme(
-    panel.grid.major.x = element_blank(), 
-    panel.grid.minor   = element_blank(),
-    axis.text.x        = element_text(face = "bold"),
-    axis.text.y        = element_text(face = "bold"),
-    plot.title         = element_text(hjust = 0.5, face = "bold")
+    axis.line       = element_line(color = "#000000", linewidth = 0.5),
+    axis.ticks      = element_line(color = "#000000"),
+    axis.text.x     = element_text(size = 11, face = "bold", colour = "#000000"),
+    axis.text.y     = element_text(size = 10, face = "bold", colour = "#000000"),
+    axis.title.y    = element_text(size = 12.5, face = "bold", colour = "#000000", margin = margin(r = 12)),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title      = element_text(hjust = 0.5, face = "bold", size = 16, colour = "#000000")
   )
+
+plot_review_distr
+
 # ─────────────────────────────────────────────────────────────────────────────
 #                     #### Hypothesis test rate ####
 # ─────────────────────────────────────────────────────────────────────────────
@@ -960,9 +983,11 @@ df_props <- df_props %>%
 df_props
 
 # Plot the data
-ggplot(df_props, aes(x = pval_type, y = proportion, fill = pval_type)) +
+plot_pval_type <- ggplot(df_props, aes(x = pval_type, y = proportion, fill = pval_type)) +
   geom_col(width = 0.6) +
   scale_fill_viridis_d(option = "D", name = "pval_type") +
+  geom_text(aes(label = percent(proportion, accuracy = 1)),
+            vjust = -0.5, size = 4, fontface = "bold") +
   scale_y_continuous(
     labels = percent_format(accuracy = 1),
     expand = expansion(mult = c(0, .1))
@@ -974,17 +999,18 @@ ggplot(df_props, aes(x = pval_type, y = proportion, fill = pval_type)) +
   ) +
   theme_minimal(base_size = 14) +
   theme(
-    plot.title         = element_text(
-      hjust   = 0.5,
-      face    = "bold",
-      margin  = margin(b = 20),
-      size    = 12),
-    legend.position        = "none",
-    panel.grid.major.x     = element_blank(),  
-    panel.grid.minor.x     = element_blank(),  
-    panel.grid.minor.y     = element_blank(),
-    axis.text.x    = element_text(size = 11, face = "bold"),
-)
+    axis.line       = element_line(color = "#000000", linewidth = 0.5),
+    axis.ticks      = element_line(color = "#000000"),
+    axis.text.x     = element_text(size = 11, face = "bold", colour = "#000000"),
+    axis.text.y     = element_text(size = 10, face = "bold", colour = "#000000"),
+    axis.title.y    = element_text(size = 12.5, face = "bold", colour = "#000000", margin = margin(r = 12)),
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title      = element_text(hjust = 0.5, face = "bold", size = 16, colour = "#000000")
+  )
+
+plot_pval_type
 
 # ─────────────────────────────────────────────────────────────────────────────
 #                      #### Data Sharing ####
