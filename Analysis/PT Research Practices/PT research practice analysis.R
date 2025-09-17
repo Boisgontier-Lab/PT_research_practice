@@ -35,54 +35,70 @@ aspect_ratio <- 0.5
 # check the unique values and their frequency of type
 table(df$'type')
 
-# Calculation of the distribution of article
+# Count per category
 data_counts <- df %>%
-  count(type) %>%                      
-  mutate(pct = n / sum(n)) %>%         
-  arrange(pct) %>%                     
+  count(type) %>%
+  arrange(n) %>%
   mutate(
-    type = factor(type, levels = type),
-    highlight = ifelse(type == "Original", "Original", "Other"),
-    y_pos = as.numeric(type) * bar_spacing
+    type      = factor(type, levels = type),
+    highlight = ifelse(type == "Original", "Original", "Other")
   )
 
-# Plot data
-plot_type_article <- ggplot(data_counts, aes(x = pct, y = y_pos, fill = highlight)) +
-  geom_col(width = bar_height, orientation = "y") +
-  scale_fill_manual(values = c(Original = "orange", Other = "grey"),
-                    guide  = FALSE) +
-  scale_x_continuous(
-    breaks = seq(0, 0.5, by = 0.1),
-    labels = percent_format(accuracy = 1),
-    expand = expansion(mult = c(0, 0.05))
+# Sort by year
+year_counts <- df %>%
+  count(type, year, name = "n_year") %>%
+  mutate(type = factor(type, levels = levels(data_counts$type))) %>%
+  arrange(type, year) %>%
+  group_by(type) %>%
+  mutate(
+    cum_n   = cumsum(n_year),                 
+    prev_n  = dplyr::lag(cum_n, default = 0), 
+    mid_x   = (prev_n + cum_n)/2,             
+    total_n = sum(n_year),
+    y_num   = as.numeric(type)                
+  ) %>%
+  ungroup()
+
+year_split_lines    <- dplyr::filter(year_counts, cum_n < total_n)
+year_labels_original<- dplyr::filter(year_counts, as.character(type) == "Original")
+
+# Plot 
+plot_type_article <- ggplot(data_counts, aes(x = n, y = type, fill = highlight)) +
+  geom_col(width = bar_height) +
+  geom_segment(
+    data = year_split_lines,
+    aes(x = cum_n, xend = cum_n,
+        y = y_num - bar_height/2, yend = y_num + bar_height/2),
+    inherit.aes = FALSE, color = "white", linewidth = 0.8
   ) +
-  scale_y_continuous(
-    breaks = data_counts$y_pos,
-    labels = levels(data_counts$type),
-    expand = expansion(add = bar_height / 2)
+  geom_text(
+    data = year_labels_original,
+    aes(x = mid_x, y = type, label = year),
+    inherit.aes = FALSE, color = "white", fontface = "bold", size = 4
   ) +
+  scale_fill_manual(values = c(Original = "orange", Other = "grey"), guide = FALSE) +
+  scale_x_continuous(breaks = pretty(data_counts$n),
+                     expand = expansion(mult = c(0, 0.05))) +
+  scale_y_discrete(expand = expansion(add = bar_height/2)) +
   labs(
     title = "Distribution of Articles",
-    x     = "Proportion",
+    x     = "Number of articles",
     y     = NULL
   ) +
   theme_minimal() +
-  theme(
-    plot.title       = element_text(
-      hjust   = 0.5,
-      face    = "bold",
-      margin  = margin(b = 20)  
-    ),
-    axis.line.x      = element_line(color = "lightgray"),
-    panel.grid.major.x = element_line(color = "lightgray", size = 0.5),
-    panel.grid.minor.x = element_blank(),
-    panel.grid.major.y = element_blank(),
-    panel.grid.minor.y = element_blank(),
-    axis.title.x     = element_text(face = "bold"),
-    axis.text.x      = element_text(size = 8, color = "black", face = "bold"),
-    axis.text.y      = element_text(size = 8, color = "black", face = "bold"),
-    aspect.ratio     = aspect_ratio,
+  theme(    plot.title         = element_text(hjust = 0.5, face = "bold", margin = margin(b = 20)),
+            axis.line.x        = element_line(color = "black"),
+            axis.line.y        = element_line(color = "black"),
+            panel.grid.major.x = element_blank(),
+            panel.grid.minor.x = element_blank(),
+            panel.grid.major.y = element_blank(),
+            panel.grid.minor.y = element_blank(),
+            axis.title.x       = element_text(face = "bold", color = "black", size = 16),
+            axis.text.x        = element_text(size = 14, color = "black", face = "bold"),
+            axis.text.y        = element_text(size = 16, color = "black", face = "bold"),
+            aspect.ratio       = aspect_ratio
   )
+
 print(plot_type_article)
 
 # ─────────────────────────────────────────────────────────────────────────────
