@@ -717,15 +717,16 @@ df_orig <- df %>%
       
       `% Women` = {
         df_gender <- df_orig %>% filter(topic != "Women Health")
-        sum(df_gender$women, na.rm = TRUE) / sum(df_gender$n[!is.na(df_gender$women)], na.rm = TRUE) * 100
+        denom <- sum(df_gender$women, na.rm=TRUE) + sum(df_gender$men, na.rm=TRUE)
+        100 * sum(df_gender$women, na.rm=TRUE) / denom
       },
-      
       `% Men` = {
         df_gender <- df_orig %>% filter(topic != "Women Health")
-        sum(df_gender$men, na.rm = TRUE) / sum(df_gender$n[!is.na(df_gender$men)], na.rm = TRUE) * 100
+        denom <- sum(df_gender$women, na.rm=TRUE) + sum(df_gender$men, na.rm=TRUE)
+        100 * sum(df_gender$men, na.rm=TRUE) / denom
       }
     )
-
+  
 # Table creation
 final_table <- bind_rows(summary_by_topic, total_row) %>%
   mutate(across(c(Median, SD, Min., Max., `% Women`, `% Men`), ~ round(.x, 1)))
