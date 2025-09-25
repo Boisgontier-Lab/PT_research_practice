@@ -17,7 +17,7 @@ We warmly thank Paul C. Bogdan for his impressive work and for generously sharin
 
 **(2)** **"PTChange-main":** inspired from the study of Bogdan (2025), containing the R code, python scripts and datasets used for the p-fragile calculation.
 
-* **R\_code:** p\_fragile\_calculation.r contains the code to calculate the p-fragile proportion from scratch.
+* **R\_code:** p\_fragile\_calculation.r contains the code to calculate the p-fragile proportion from scratch, as well as the distributionof exact and relative p-values.
 * **prepare\_fulltexts**: contains the python scripts used in the R code to download the fulltext articles in .HTML and .MHTML in 3 different ways (from doi, pmcid, and ScienceDirect), and the python scripts to retrieve the Results sections of each article and convert them into usable plaintexts (.TXT).
 * **make\_dataset:** contains the following:
 
@@ -104,6 +104,7 @@ Fragility proportions (paper-level)
   
  
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
