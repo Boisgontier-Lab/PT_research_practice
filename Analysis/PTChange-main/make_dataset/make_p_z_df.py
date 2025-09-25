@@ -11,9 +11,8 @@ import unicodedata
 import argparse
 
 # ----------------- Config -----------------
-STAT_LOOKBACK = 32     
+STAT_LOOKBACK = 32
 STAT_LOOKAHEAD = 0 # Modify if you want to add a lookahead
-
 
 def remove_diacritics_fast(text):
     return (unicodedata.normalize('NFKD', text)
@@ -29,6 +28,24 @@ P_TOKEN_PATTERN = re.compile(
     r'(?:p|P|p\-value|P\-value|p‐value|P‐value|p value|P value|p‐val)\s*'
     r'(?P<sign>=|<|>|≤|≥)\s*'
     r'(?P<pval>0?\.\s*\d+)',
+    re.IGNORECASE
+)
+
+P_TOKEN_PATTERN_SCI1 = re.compile(
+    r'(?:^|[\s\(\[\{,;:\-])\s*'
+    r'(?:p|P|p\-value|P\-value|p‐value|P‐value|p value|P value|p‐val)\s*'
+    r'(?P<sign>=|<|>|≤|≥)\s*'
+    r'(?P<mant>(?:\d+(?:[.,]\d+)?|0?\.\s*\d+))\s*'
+    r'(?:×|x|X|\*)\s*10\s*(?:\^)?\s*(?P<exp>[−-]?\s*\d+)',
+    re.IGNORECASE
+)
+
+P_TOKEN_PATTERN_SCI2 = re.compile(
+    r'(?:^|[\s\(\[\{,;:\-])\s*'
+    r'(?:p|P|p\-value|P\-value|p‐value|P‐value|p value|P value|p‐val)\s*'
+    r'(?P<sign>=|<|>|≤|≥)\s*'
+    r'(?P<mant>(?:\d+(?:[.,]\d+)?|0?\.\s*\d+))\s*'
+    r'(?:e|E)\s*(?P<exp>[−-]?\s*\d+)',
     re.IGNORECASE
 )
 
@@ -130,6 +147,10 @@ def get_sentence(tup, prev_end, stat_range, plain_text, sentence_range):
 
 def parse_ps(plain_text, doi_str):
     p_val_texts = list(P_TOKEN_PATTERN.finditer(plain_text))
+    p_val_texts += list(P_TOKEN_PATTERN_SCI1.finditer(plain_text))
+    p_val_texts += list(P_TOKEN_PATTERN_SCI2.finditer(plain_text))
+    p_val_texts.sort(key=lambda m: m.start())
+
     p_val_l = []
     prev_end = 0
 
@@ -139,8 +160,14 @@ def parse_ps(plain_text, doi_str):
 
         try:
             sign_val = tup.group('sign')
-            p_val_str = tup.group('pval')
-            p_val = float(norm_decimal_str(p_val_str))
+            if 'pval' in tup.re.groupindex:
+                p_val_str = tup.group('pval')
+                p_val = float(norm_decimal_str(p_val_str))
+            else:
+                mant = norm_decimal_str(tup.group('mant'))
+                exp_str = tup.group('exp').replace('\u2212', '-')
+                exp_str = exp_str.replace(' ', '')
+                p_val = float(mant) * (10.0 ** int(exp_str))
         except Exception:
             prev_end = tup.end()
             continue
@@ -187,7 +214,7 @@ def make_p_z_df(text_dirs, save_dir):
 
     for row in tqdm(df.itertuples(), desc='Extracting p-values'):
         file_id = row.file_id
-        doi_str_norm = file_id.replace('_', '-') 
+        doi_str_norm = file_id.replace('_', '-')
         found = False
 
         for dir_path in text_dirs:
