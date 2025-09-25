@@ -284,3 +284,120 @@ print(plot_pfragile)
 
 ggsave("../Manuscript/Figures/mean p-fragile.png",
        plot = plot_pfragile, width = 6, height = 4, dpi = 600)
+
+# ─────────────────────────────────────────────────────────────────────────────
+#              #### Distribution of z-transformed p-value #### 
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+df_pval <- read_csv("Analysis/PTChange-main/dataframes/val_orig_quant_process.csv")
+
+df_z <- df_pval %>%
+  transmute(
+    sign  = str_trim(as.character(sign)),
+    p_chr = str_replace_all(as.character(p_val), ",", "."),
+    p_num = readr::parse_number(p_chr)
+  ) %>%
+  filter(sign == "=", !is.na(p_num), p_num > 0, p_num <= 1) %>%
+  mutate(z = qnorm(1 - p_num/2))
+
+bin_width <- 0.245
+z_max     <- 9.80
+z_edges   <- seq(0, z_max, by = bin_width)
+breaks    <- c(z_edges, Inf)
+
+bin_map <- tibble(
+  bin_idx = seq_along(z_edges),
+  left    = z_edges,
+  right   = c(z_edges[-1], Inf)
+)
+
+df_binned <- df_z %>%
+  mutate(bin = cut(z, breaks = breaks, include.lowest = TRUE, right = TRUE))
+
+counts <- df_binned %>%
+  mutate(bin_idx = as.integer(bin)) %>%
+  count(bin_idx, name = "Frequency")
+
+counts_full <- bin_map %>%
+  left_join(counts, by = "bin_idx") %>%
+  mutate(
+    Frequency = replace_na(Frequency, 0L),
+    highlight = case_when(
+      right <= 1.96 & right > 1.96 - bin_width ~ "ref",
+      left  >= 1.96 & left  < 1.96 + bin_width ~ "ref",
+      TRUE                                    ~ "other"
+    )
+  )
+
+x_stop <- 8.82
+
+counts_full <- counts_full %>%
+  filter(left < x_stop) %>%
+  mutate(right_plot = pmin(right, x_stop))
+
+major_breaks <- seq(0, x_stop, by = 0.98)
+major_labels <- format(round(major_breaks, 2), nsmall = 2)
+
+z_plot <- ggplot(counts_full, aes(y = Frequency)) +
+  geom_rect(aes(xmin = left, xmax = right_plot, ymin = 0, ymax = Frequency, fill = highlight),
+            color = "black", linewidth = 0.3) +
+  scale_fill_manual(values = c(ref = "grey70", other = "white"), guide = "none") +
+  geom_vline(xintercept = 1.96, linetype = "dashed", linewidth = 1.2) +
+  scale_x_continuous(breaks = major_breaks, labels = major_labels,
+                     expand = c(0, 0), limits = c(0, x_stop)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  labs(x = "Z statistic", y = "Frequency",
+       title = NULL) +
+  theme_classic(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.line        = element_line(color = "#000000", linewidth = 0.5),
+    axis.ticks       = element_line(color = "#000000"),
+    axis.text.x      = element_text(size = 16, face = "bold", colour = "#000000"),
+    axis.text.y      = element_text(size = 12, face = "bold", colour = "#000000"),
+    axis.title.y     = element_text(size = 16, face = "bold", colour = "#000000",
+                                    margin = margin(r = 12)),
+    axis.title.x     = element_text(size = 16, face = "bold", colour = "#000000"),
+    plot.margin      = margin(t = 10, r = 24, b = 10, l = 10)
+  )
+z_plot
+
+# ─────────────────────────────────────────────────────────────────────────────
+#              #### Comparison p < .05 & p > .05 #### 
+# ─────────────────────────────────────────────────────────────────────────────
+# This comparison is made on p-value "<" or ">"
+
+df_comp <- df_pval %>%
+  transmute(
+    sign  = str_trim(as.character(sign)),
+    p_chr = str_replace_all(as.character(p_val), ",", "."),
+    p_num = readr::parse_number(p_chr)
+  ) %>%
+  filter(sign %in% c("<", ">"), !is.na(p_num), p_num >= 0, p_num <= 1)
+
+summary_df <- tibble(
+  Category = c("p < 0.05", "p > 0.05"),
+  n = c(sum(df_comp$sign == "<" & df_comp$p_num <= 0.05, na.rm = TRUE),
+        sum(df_comp$sign == ">" & df_comp$p_num >= 0.05, na.rm = TRUE))
+)
+
+plot_comp <- ggplot(summary_df, aes(x = Category, y = n)) +
+  geom_col(width = 0.7, fill = "grey70", color = "black") +
+  geom_text(aes(label = n), vjust = -0.3, fontface = "bold") +
+  labs(x = NULL, y = "Fréquence",
+       title = NULL) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.05))) +
+  theme_classic(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank(),
+    axis.line        = element_line(color = "#000000", linewidth = 0.5),
+    axis.ticks       = element_line(color = "#000000"),
+    axis.text.x      = element_text(size = 16, face = "bold", colour = "#000000"),
+    axis.text.y      = element_text(size = 12, face = "bold", colour = "#000000"),
+    axis.title.y     = element_text(size = 16, face = "bold", colour = "#000000",
+                                    margin = margin(r = 12)),
+    axis.title.x     = element_text(size = 16, face = "bold", colour = "#000000"),
+    plot.margin      = margin(t = 10, r = 24, b = 10, l = 10)
+  )
+plot_comp
