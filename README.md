@@ -13,7 +13,7 @@ We warmly thank Paul C. Bogdan for his impressive work and for generously sharin
 **(1) "PT Research Practices":** containing the dataset with all the data manually extracted from the 1173 articles and the R code to analyze it.
 
 * **PT-research practice validated.xlsx:** entails the individual data extraction of all the coders, and the validated data after concertation. The final dataset used for analysis was the sheet "Data2022+2023+2024".
-* **PT research practice analysis.r:** entails all the analyses made on the dataset except the p-fragile calculation.
+* **PT research practice analysis.r:** entails all the analyses made on the dataset except the p-fragile calculation and the p-value distributions.
 
 **(2)** **"PTChange-main":** inspired from the study of Bogdan (2025), containing the R code, python scripts and datasets used for the p-fragile calculation.
 
@@ -104,6 +104,7 @@ Fragility proportions (paper-level)
   
  
 Should you have any question, don't hesitate to contact me at fjabouil@uottawa.ca.
+
 
 
 
